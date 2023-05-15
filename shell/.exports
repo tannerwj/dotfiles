@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Prefer US English and use UTF-8
+export LANG="en_US"
+export LC_ALL="en_US.UTF-8"
+
+# Make vim the default editor
+export EDITOR="vim"
+
+# Larger bash history
+export HISTSIZE=32768
+export HISTFILESIZE=$HISTSIZE
+export HISTCONTROL="ignoredups:ignorespace"
+export HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S "
+export HISTIGNORE="bg:clear:exit:fg:history:cd -:pwd:exit:date:* --help"
+
+# Better MySQL prompt
+export MYSQL_PS1="\u@\h \d > "
+
+# Have brew only prompt every week to update
+export HOMEBREW_AUTO_UPDATE_SECS=604800
+
+# Have zsh-nvm load NVM lazy
+export NVM_LAZY_LOAD=true
+export NVM_COMPLETION=true
+
+# zplug
+export ZPLUG_HOME=$HOMEBREW_PREFIX/opt/zplug
+
+# ansible
+export ANSIBLE_CONFIG=~/repos/ansible/ansible.cfg
+
+# exa
+export EXA_COLORS='uu=1;36:gu=1;36'

@@ -1,0 +1,36 @@
+#!/bin/zsh
+
+source $ZPLUG_HOME/init.zsh
+
+zplug zplug/zplug, hook-build:'zplug --self-manage' # so zplug can update itself
+zplug davidparsson/zsh-pyenv-lazy # save ~.25 seconds and lazy load pyenv
+zplug romkatv/powerlevel10k, as:theme, depth:1 # zsh theme
+zplug zsh-users/zsh-autosuggestions # suggests commands as you type based on history and completions
+zplug zdharma-continuum/fast-syntax-highlighting # feature rich syntax highlighting for Zsh
+zplug djui/alias-tips # alerts if you could've used an alias
+zplug lukechilds/zsh-nvm # installing, updating and loading nvm
+zplug zplugin/zsh-exa # installing and loading exa
+zplug z-shell/zsh-navigation-tools # lots of stuff, I like history features
+zplug marlonrichert/zsh-autocomplete # adds real-time type-ahead autocompletion
+
+# completions
+[[ $commands[kubectl] ]] && source <(kubectl completion zsh) # completion for kubectl
+zplug greymd/docker-zsh-completion # completion for docker and docker-compose
+zplug zpm-zsh/ssh # ssh host completion
+zplug wintermi/zsh-brew # brew completions
+
+# only check zcompdump once a day
+autoload -Uz compinit
+if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' ${ZDOTDIR:-$HOME}/.zcompdump) ]; then
+  compinit
+else
+  compinit -C
+fi
+
+# Install plugins if there are plugins that have not been installed
+if ! zplug check; then
+    zplug install
+fi
+
+# source plugins and add commands to the PATH
+zplug load
