@@ -7,7 +7,7 @@
 current_dir=$(dirname "$(readlink -f "$0")")
 
 # Define the files to source
-files=("$current_dir"/.{exports,aliases,functions,zplug})
+files=("$current_dir"/.{exports,aliases,zplug,functions})
 
 # Source each file if it exists and is readable
 for file in "${files[@]}"; do
@@ -15,7 +15,7 @@ for file in "${files[@]}"; do
 done
 
 # Autocorrect typos when changing path with "cd"
-setopt correct
+# setopt correct
 
 # Check if command exists in hash table before executing
 #setopt correctall

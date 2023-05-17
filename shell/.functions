@@ -1,6 +1,20 @@
 #!/bin/bash
 
+# check shell startup time
 timeshell() {
   shell=${1-$SHELL}
   for i in $(seq 1 5); do /usr/bin/time $shell -i -c exit; done
+}
+
+# Reset ↑ and ↓ - don't use marlonrichert/zsh-autocomplete
+() {
+   local -a prefix=( '\e'{\[,O} )
+   local -a up=( ${^prefix}A ) down=( ${^prefix}B )
+   local key=
+   for key in $up[@]; do
+      bindkey "$key" up-line-or-history
+   done
+   for key in $down[@]; do
+      bindkey "$key" down-line-or-history
+   done
 }
