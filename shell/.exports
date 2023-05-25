@@ -27,8 +27,5 @@ export NVM_COMPLETION=true
 # zplug
 export ZPLUG_HOME=$HOMEBREW_PREFIX/opt/zplug
 
-# ansible
-export ANSIBLE_CONFIG=~/repos/ansible/ansible.cfg
-
 # exa
 export EXA_COLORS='uu=1;36:gu=1;36'

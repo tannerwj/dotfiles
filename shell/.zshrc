@@ -7,7 +7,7 @@
 current_dir=$(dirname "$(readlink -f "$0")")
 
 # Define the files to source
-files=("$current_dir"/.{exports,aliases,zplug,functions})
+files=("$current_dir"/.{exports,aliases,zplug,functions,private})
 
 # Source each file if it exists and is readable
 for file in "${files[@]}"; do
