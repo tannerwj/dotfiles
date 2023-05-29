@@ -3,22 +3,43 @@
 alias vi='vim'
 alias md='mkdir -p'
 alias rd='rmdir'
-
 alias p='ps -ef | grep -v grep | grep'
 
-alias reload="exec $SHELL -l"
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
 
-#alias ll="ls -alh"
-alias lsd='ls -lh | grep "^d"'
+# reload the shell
+alias reload='exec $SHELL -l'
+
+#alias ll='ls -alh'
+#alias lsd='ls -lh | grep "^d"'
 
 # Enable aliases to be sudo’ed
 alias sudo='sudo '
 
 # IP addresses
-alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias myip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias ips="ifconfig -a | grep -o 'inet6\? \(\([0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+\)\|[a-fA-F0-9:]\+\)' | sed -e 's/inet6* //'"
 alias grepip='grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"'
 
+# Print each PATH entry on a separate line
+alias path='echo -e ${PATH//:/\\n}'
+
+# OS aliases
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    alias flush='dscacheutil -flushcache && killall -HUP mDNSResponder'
+    alias mute="osascript -e 'set volume output muted true'"
+    alias unmute="osascript -e 'set volume output muted false'"
+    alias lmk="say 'Process complete.'"
+elif [[ "$OSTYPE" == "linux"* ]]; then
+    alias sc='systemctl'
+    alias scr='systemctl daemon-reload'
+    alias sce='systemctl stop'
+    alias scs='systemctl start'
+fi
+
+# if app exists aliases 
 if [[ -x $(which kubectl) ]]; then
     alias k='kubectl'
     alias kgp='kubectl get pods'
@@ -33,10 +54,10 @@ if [[ -x $(which kubectl) ]]; then
 fi
 
 if [[ -x $(which docker) ]]; then
-    alias dco="docker-compose"
-    alias dcofresh="docker-compose-fresh"
-    alias dcol="docker-compose logs -f --tail 100"
-    alias dcou="docker-compose up"
+    alias dco='docker-compose'
+    alias dcofresh='docker-compose-fresh'
+    alias dcol='docker-compose logs -f --tail 100'
+    alias dcou='docker-compose up'
 
     alias dk='docker'
     alias dklc='docker ps -l'  # List last Docker container
@@ -52,18 +73,4 @@ fi
 if [[ -x $(which ansible) ]]; then
     alias ans='ansible'
     alias ap='ansible-playbook'
-fi
-
-if [[ "$OSTYPE" == "linux"* ]]; then
-    alias ver='cat /etc/redhat-release'
-
-    alias sc='systemctl'
-    alias scr='systemctl daemon-reload'
-    alias sce='systemctl stop'
-    alias scs='systemctl start'
-elif [[ "$OSTYPE" == "darwin"* ]]; then
-    alias flush='dscacheutil -flushcache'
-    alias mute="osascript -e 'set volume output muted true'"
-    alias unmute="osascript -e 'set volume output muted false'"
-    alias lmk="say 'Process complete.'"
 fi
