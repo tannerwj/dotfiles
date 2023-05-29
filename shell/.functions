@@ -6,6 +6,26 @@ timeshell() {
   for i in $(seq 1 5); do /usr/bin/time $shell -i -c exit; done
 }
 
+# get epoch time
+epoch() {
+  command awk -- 'BEGIN {srand(); print srand()}'
+}
+
+# convert epoch time to date time
+epoch_to_date_time() {
+  if command date -d @0 >/dev/null 2>&1; then
+    command date -d @"${1:-0}"
+  else
+    command date -r "${1:-0}"
+  fi
+}
+
+# check if file ends with a new line
+file_closes_with_newline() {
+  test "$(command tail -c 1 -- "${1-}" | command wc -l)" -eq '0' &&
+    return 1
+}
+
 # Reset ↑ and ↓ - don't use marlonrichert/zsh-autocomplete
 () {
    local -a prefix=( '\e'{\[,O} )
