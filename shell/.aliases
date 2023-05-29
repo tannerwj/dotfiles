@@ -6,6 +6,8 @@ alias rd='rmdir'
 
 alias p='ps -ef | grep -v grep | grep'
 
+alias reload="exec $SHELL -l"
+
 #alias ll="ls -alh"
 alias lsd='ls -lh | grep "^d"'
 
