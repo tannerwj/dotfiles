@@ -2,6 +2,7 @@
 tap 'homebrew/bundle'
 tap 'homebrew/services'
 tap 'esolitos/ipa'
+tap 'hashicorp/tap'
 
 # Brews
 brew 'ansible'
@@ -28,6 +29,7 @@ brew 'xz'
 brew 'zsh'
 brew 'zplug'
 brew 'esolitos/ipa/sshpass'
+brew 'hashicorp/tap/vault'
 
 # Apps
 cask '1password'
