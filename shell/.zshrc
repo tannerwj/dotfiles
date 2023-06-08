@@ -1,5 +1,8 @@
 #!/bin/zsh
 
+# setup brew for apple silicon
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 # If we're not running interactively then bail out
 [[ -z $PS1 ]] && return
 
