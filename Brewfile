@@ -19,7 +19,6 @@ brew 'jq'
 brew 'kubectl'
 brew 'mas'
 brew 'mysql'
-brew 'nvm'
 brew 'nmap'
 brew 'openldap'
 brew 'pyenv'
@@ -59,4 +58,4 @@ cask 'wireshark'
 cask 'zoom'
 
 # Mac App Store
-mas 'forScore', id: 363738376
+# mas 'forScore', id: 363738376
