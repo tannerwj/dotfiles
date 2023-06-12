@@ -9,7 +9,6 @@ zplug zsh-users/zsh-autosuggestions # suggests commands as you type based on his
 zplug zdharma-continuum/fast-syntax-highlighting # feature rich syntax highlighting for Zsh
 zplug djui/alias-tips # alerts if you could've used an alias
 zplug lukechilds/zsh-nvm # installing, updating and loading nvm
-zplug zplugin/zsh-exa # installing and loading exa
 zplug z-shell/zsh-navigation-tools # lots of stuff, I like history features
 zplug marlonrichert/zsh-autocomplete # adds real-time type-ahead autocompletion
 
