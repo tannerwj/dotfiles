@@ -1,18 +1,5 @@
 #!/bin/bash
 
-# signssh before sshing
-ssh() {
-  if ! [ -f ~/.ssh/taxhawk_vault.cert ]; then
-    signssh
-  fi
-  NOW=$(date +%s)
-  VALID=$(ssh-keygen -Lf ~/.ssh/taxhawk_vault.cert | grep Valid | awk '{print $NF}' | (read strdate && date -j -f %Y-%m-%dT%H:%M:%S $strdate +%s ))
-  if [ $NOW -ge $VALID ]; then
-    signssh
-  fi
-  command ssh $1
-}
-
 # check shell startup time
 timeshell() {
   shell=${1-$SHELL}
