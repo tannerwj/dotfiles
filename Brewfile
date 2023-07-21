@@ -55,6 +55,7 @@ cask 'spotmenu'
 cask 'sublime-text'
 cask 'visual-studio-code'
 cask 'vlc'
+cask 'webex'
 cask 'wireshark'
 cask 'zoom'
 
