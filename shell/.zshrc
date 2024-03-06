@@ -49,3 +49,6 @@ bindkey " " magic-space
 
 # Preferred text editors ordered by priority (space-separated)
 EDITOR_PRIORITY='vim vi nano pico'
+
+# Bundle custom certificate CAs for use with python
+security find-certificate -a -p > ~/Desktop/all_custom_certs_for_python.pem

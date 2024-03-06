@@ -33,3 +33,7 @@ export EXA_COLORS='uu=1;36:gu=1;36'
 # hashicorp hcp vault
 export VAULT_NAMESPACE="admin"
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES # needed for using the ansible hashicorp module
+
+# Custom root CAs for python
+export SSL_CERT_FILE=~/Desktop/all_custom_certs_for_python.pem
+export REQUESTS_CA_BUNDLE=~/Desktop/all_custom_certs_for_python.pem
