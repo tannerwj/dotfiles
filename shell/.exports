@@ -27,8 +27,8 @@ export NVM_COMPLETION=true
 # zplug
 export ZPLUG_HOME=$HOMEBREW_PREFIX/opt/zplug
 
-# exa
-export EXA_COLORS='uu=1;36:gu=1;36'
+# eza
+export EZA_COLORS='uu=1;36:gu=1;36'
 
 # hashicorp hcp vault
 export VAULT_NAMESPACE="admin"

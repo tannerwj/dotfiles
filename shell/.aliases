@@ -79,20 +79,31 @@ if [[ -x $(which vault) ]]; then
     alias vl='vault login -address=${VAULT_ADDR} -namespace=admin -method=oidc role=default'
 fi
 
-if [[ -x $(which exa) ]]; then
-  typeset -ag exa_params
+if [[ -x $(which eza) ]]; then
+  typeset -ag eza_params
 
-  exa_params=(
+  eza_params=(
   '--git' '--icons' '--classify' '--group'
   '--group-directories-first' '--time-style=long-iso' '--color-scale'
   )
 
-  alias ls='exa $exa_params'
-  alias l='exa --git-ignore $exa_params'
-  alias ll='exa --all --header --long $exa_params'
-  alias llm='exa --all --header --long --sort=modified $exa_params'
-  alias la='exa -lbhHigUmuSa'
-  alias lx='exa -lbhHigUmuSa@'
-  alias lt='exa --tree $exa_params'
-  alias tree='exa --tree $exa_params'
+  alias ls='eza $eza_params'
+  alias l='eza --git-ignore $eza_params'
+  alias ll='eza --all --header --long $eza_params'
+  alias llm='eza --all --header --long --sort=modified $eza_params'
+  alias la='eza -lbhHigUmuSa'
+  alias lx='eza -lbhHigUmuSa@'
+  alias lt='eza --tree $eza_params'
+  alias tree='eza --tree $eza_params'
+fi
+
+if [[ -x $(which terraform) ]]; then
+    alias tfwl='terraform workspace list'
+    alias tfprv='terraform workspace select prv'
+    alias tfslc='terraform workspace select slc'
+    alias tflv='terraform workspace select lv'
+    alias tfi='op run -- terraform init'
+    alias tfa='op run -- terraform apply'
+    alias tfp='op run -- terraform plan'
+    alias tfv='op run -- terraform validate'
 fi
