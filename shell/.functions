@@ -71,3 +71,21 @@ getcertnames() {
       bindkey "$key" down-line-or-history
    done
 }
+
+kgip () {
+  pods=$(kubectl get pods -A -o custom-columns=NAME:.metadata.name,NAMESPACE:.metadata.namespace --no-headers=true --field-selector status.podIP="$1")
+  if [ -z "$pods" ]
+  then
+    services=$(kubectl get services -A -o json | jq -r --arg ip "$1" '.items[] | select(.spec.clusterIP==$ip) | "\(.metadata.name) \(.metadata.namespace)"')
+    if [ -n "$services" ]
+    then
+      echo "$1 belongs to the following service and namespace:"
+      echo "$services"
+    else
+      echo "No pods or services found with IP $1"
+    fi
+  else
+    echo "$1 belongs to the following pod and namespace:"
+    echo "$pods"
+  fi
+}
