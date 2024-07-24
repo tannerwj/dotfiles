@@ -6,6 +6,7 @@ tap 'hashicorp/tap'
 
 # Brews
 brew 'ansible'
+brew 'aws-cdk'
 brew 'awscli'
 brew 'calicoctl'
 brew 'cloudflared'
@@ -36,6 +37,7 @@ brew 'hashicorp/tap/vault'
 # Apps
 cask '1password'
 cask '1password-cli'
+cask 'arc'
 cask 'brave-browser'
 cask 'cloudflare-warp'
 cask 'discord'
