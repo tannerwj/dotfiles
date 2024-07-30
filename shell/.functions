@@ -89,3 +89,34 @@ kgip () {
     echo "$pods"
   fi
 }
+
+swap_and_push() {
+  local image=$1
+  if [[ -z $image ]]; then
+    echo "Usage: swap_and_push <image>"
+    return 1
+  fi
+  echo "Pulling image: $image"
+  docker pull $image
+  # Extract repository, name and tag
+  local repository=$(echo $image | awk -F'/' '{OFS="/"; $NF=""; print}' | sed 's/\/$//')
+  local name_and_tag=$(echo $image | awk -F'/' '{print $NF}')
+  local name=$(echo $name_and_tag | awk -F':' '{print $1}')
+  local tag=$(echo $name_and_tag | awk -F':' '{print $2}')
+  if [[ -z $tag ]]; then
+    tag="latest"
+  fi
+  echo "Original repository: $repository"
+  # Swap lv and slc in the tag
+  local new_repository=${repository//lv/temp}
+  new_repository=${new_repository//slc/lv}
+  new_repository=${new_repository//temp/slc}
+  echo "New repository: $new_repository"
+  local new_image="$new_repository/$name:$tag"
+  echo "Retagging image: $new_image"
+  docker tag $image $new_image
+  echo "Pushing image: $new_image"
+  docker push $new_image
+  echo "Operation completed."
+}
+ 
