@@ -30,7 +30,7 @@ brew 'zplug'
 brew 'esolitos/ipa/sshpass'
 brew 'hashicorp/tap/vault'
 brew 'openjdk@21'
-brew 'openssl'
+brew 'openssl@1.1'
 
 # Apps
 cask '1password'
