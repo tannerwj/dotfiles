@@ -37,3 +37,6 @@ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES # needed for using the ansible ha
 # Custom root CAs for python
 export SSL_CERT_FILE=~/Desktop/all_custom_certs_for_python.pem
 export REQUESTS_CA_BUNDLE=~/Desktop/all_custom_certs_for_python.pem
+
+# Prevent brew from installing
+export HOMEBREW_FORBIDDEN_CASKS="microsoft-auto-update"

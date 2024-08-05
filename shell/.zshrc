@@ -53,3 +53,4 @@ EDITOR_PRIORITY='vim vi nano pico'
 # Bundle all certificate CAs for use with python
 security find-certificate -a -p > ~/Desktop/all_certs_for_python.pem # custom
 cat /opt/homebrew/etc/ca-certificates/cert.pem >> ~/Desktop/all_certs_for_python.pem # from homebrew ca-certificates
+
