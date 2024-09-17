@@ -2,7 +2,6 @@
 
 # Prefer US English and use UTF-8
 export LANG="en_US"
-export LC_ALL="en_US.UTF-8"
 
 # Make vim the default editor
 export EDITOR="vim"
@@ -14,29 +13,32 @@ export HISTCONTROL="ignoredups:ignorespace"
 export HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S "
 export HISTIGNORE="bg:clear:exit:fg:history:cd -:pwd:exit:date:* --help"
 
-# Better MySQL prompt
-export MYSQL_PS1="\u@\h \d > "
-
-# Have brew only prompt every week to update
-export HOMEBREW_AUTO_UPDATE_SECS=604800
-
-# Have zsh-nvm load NVM lazy
-export NVM_LAZY_LOAD=true
-export NVM_COMPLETION=true
-
-# zplug
-export ZPLUG_HOME=$HOMEBREW_PREFIX/opt/zplug
-
 # exa
 export EXA_COLORS='uu=1;36:gu=1;36'
 
-# hashicorp hcp vault
-export VAULT_NAMESPACE="admin"
-export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES # needed for using the ansible hashicorp module
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  # Have brew only prompt every week to update
+  export HOMEBREW_AUTO_UPDATE_SECS=604800
 
-# Custom root CAs for python
-export SSL_CERT_FILE=~/Desktop/all_custom_certs_for_python.pem
-export REQUESTS_CA_BUNDLE=~/Desktop/all_custom_certs_for_python.pem
+  # Prevent brew from installing
+  export HOMEBREW_FORBIDDEN_CASKS="microsoft-auto-update"
+  # hashicorp hcp vault
+  export VAULT_NAMESPACE="admin"
+  export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES # needed for using the ansible hashicorp module
 
-# Prevent brew from installing
-export HOMEBREW_FORBIDDEN_CASKS="microsoft-auto-update"
+  # Custom root CAs for python
+  export SSL_CERT_FILE=~/Desktop/all_custom_certs_for_python.pem
+  export REQUESTS_CA_BUNDLE=~/Desktop/all_custom_certs_for_python.pem
+
+  # zplug
+  export ZPLUG_HOME=$HOMEBREW_PREFIX/opt/zplug
+
+  # Have zsh-nvm load NVM lazy
+  export NVM_LAZY_LOAD=true
+  export NVM_COMPLETION=true
+
+  export LC_ALL="en_US.UTF-8"
+
+  # Better MySQL prompt
+  export MYSQL_PS1="\u@\h \d > "
+fi
