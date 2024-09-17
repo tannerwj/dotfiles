@@ -6,7 +6,7 @@
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
-for file in .{path,exports,aliases,functions,extra}; do
+for file in .{path,exports,aliases,functions,extra,private}; do
 	[ -r "$file" ] && source "$file"
 done
 unset file
@@ -98,12 +98,3 @@ EDITOR_PRIORITY='vim vi nano pico'
 
 # Locations to prefix to PATH (colon-separated)
 EXTRA_PATHS=''
-
-# Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
-[ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2 | tr ' ' '\n')" scp sftp ssh
-
-# Typing "!!<space>" will replace "!!" with the previous command
-bindkey " " magic-space
-
-# Preferred text editors ordered by priority (space-separated)
-EDITOR_PRIORITY='vim vi nano pico'
