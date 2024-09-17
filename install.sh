@@ -10,6 +10,11 @@ rsync --exclude ".git/" \
   --exclude "install.sh" \
   --exclude "README.md" \
   --exclude "LICENSE-MIT.txt" \
-  -avh --no-perms shell/* ~;
+  --exclude "Brewfile" \
+  --exclude "Brewfile.lock.json" \
+  --exclude ".gitignore" \
+  -avh --no-perms .gitconfig ~;
+
+rsync -a shell/ ~/
 
 source ~/.bashrc;
