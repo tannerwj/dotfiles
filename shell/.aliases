@@ -83,7 +83,7 @@ if [[ -x $(which eza) ]]; then
   typeset -ag eza_params
 
   eza_params=(
-  '--git' '--icons' '--classify' '--group'
+  '--icons' '--classify' '--group'
   '--group-directories-first' '--time-style=long-iso' '--color-scale'
   )
 
