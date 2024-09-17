@@ -2,6 +2,7 @@
 
 # Prefer US English and use UTF-8
 export LANG="en_US"
+export LC_ALL="en_US.UTF-8"
 
 # Make vim the default editor
 export EDITOR="vim"
@@ -36,8 +37,6 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   # Have zsh-nvm load NVM lazy
   export NVM_LAZY_LOAD=true
   export NVM_COMPLETION=true
-
-  export LC_ALL="en_US.UTF-8"
 
   # Better MySQL prompt
   export MYSQL_PS1="\u@\h \d > "
