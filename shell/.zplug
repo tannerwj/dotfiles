@@ -14,6 +14,9 @@ zplug marlonrichert/zsh-autocomplete # adds real-time type-ahead autocompletion
 
 # completions
 [[ $commands[kubectl] ]] && source <(kubectl completion zsh) # completion for kubectl
+if [[ -x $(which kubecolor) ]]; then
+    compdef kubecolor=kubectl
+fi
 zplug greymd/docker-zsh-completion # completion for docker and docker-compose
 zplug zpm-zsh/ssh # ssh host completion
 zplug wintermi/zsh-brew # brew completions

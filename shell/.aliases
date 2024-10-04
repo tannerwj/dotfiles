@@ -41,6 +41,9 @@ fi
 
 # if app exists aliases 
 if [[ -x $(which kubectl) ]]; then
+    if [[ -x $(which kubecolor) ]]; then
+        alias kubectl=kubecolor
+    fi
     alias k='kubectl'
     alias kgp='kubectl get pods'
     alias kgd='kubectl get deployments'

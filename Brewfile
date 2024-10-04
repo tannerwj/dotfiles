@@ -31,6 +31,7 @@ brew 'esolitos/ipa/sshpass'
 brew 'hashicorp/tap/vault'
 brew 'openjdk@21'
 brew 'openssl@1.1'
+brew 'kubecolor'
 
 # Apps
 cask '1password'
