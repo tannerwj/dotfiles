@@ -9,3 +9,5 @@ Thumbs.db
 .private
 
 Brewfile.lock.json
+
+.codegpt

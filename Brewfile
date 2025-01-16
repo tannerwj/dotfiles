@@ -32,6 +32,7 @@ brew 'hashicorp/tap/vault'
 brew 'openjdk@21'
 brew 'openssl@1.1'
 brew 'kubecolor'
+brew 'operator-sdk'
 
 # Apps
 cask '1password'
