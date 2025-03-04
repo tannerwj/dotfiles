@@ -13,11 +13,11 @@ rsync --exclude ".git/" \
   --exclude "Brewfile" \
   --exclude "Brewfile.lock.json" \
   --exclude ".gitignore" \
-  --exclude ".private" \
-  --exclude ".zplug" \
-  --exclude ".zshrc" \
   -avh --no-perms .gitconfig ~;
 
-rsync -a shell/ ~/
+rsync --exclude ".private" \
+  --exclude ".zplug" \
+  --exclude ".zshrc" \
+  -a shell/ ~/;
 
 source ~/.bashrc;

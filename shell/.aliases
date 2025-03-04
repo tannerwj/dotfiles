@@ -79,7 +79,7 @@ if [[ -x $(which ansible) ]]; then
 fi
 
 if [[ -x $(which vault) ]]; then
-    alias vl='vault login -address=${VAULT_ADDR} -namespace=admin -method=oidc role=default listenaddress="0.0.0.0"'
+    alias vl='vault login -address=${VAULT_ADDR} -namespace=admin -method=oidc role=default listenaddress="0.0.0.0" port=${VAULT_PORT:-8250}'
 fi
 
 if [[ -x $(which eza) ]]; then
