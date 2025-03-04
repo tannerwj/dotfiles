@@ -13,6 +13,9 @@ rsync --exclude ".git/" \
   --exclude "Brewfile" \
   --exclude "Brewfile.lock.json" \
   --exclude ".gitignore" \
+  --exclude ".private" \
+  --exclude ".zplug" \
+  --exclude ".zshrc" \
   -avh --no-perms .gitconfig ~;
 
 rsync -a shell/ ~/
