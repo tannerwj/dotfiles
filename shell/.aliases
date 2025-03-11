@@ -80,6 +80,7 @@ fi
 
 if [[ -x $(which vault) ]]; then
     alias vl='vault login -address=${VAULT_ADDR} -namespace=admin -method=oidc role=default listenaddress="0.0.0.0" port=${VAULT_PORT:-8250}'
+    alias vt='vault token lookup'
 fi
 
 if [[ -x $(which eza) ]]; then
