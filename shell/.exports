@@ -40,4 +40,5 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 
   # Better MySQL prompt
   export MYSQL_PS1="\u@\h \d > "
+  export DOTFILES="~/git/dotfiles"
 fi
