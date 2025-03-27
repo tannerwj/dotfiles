@@ -3,6 +3,7 @@ tap 'homebrew/bundle'
 tap 'homebrew/services'
 tap 'esolitos/ipa'
 tap 'hashicorp/tap'
+tap 'fluxcd/tap'
 
 # Brews
 brew 'ansible'
@@ -33,6 +34,9 @@ brew 'openjdk@21'
 brew 'openssl@1.1'
 brew 'kubecolor'
 brew 'operator-sdk'
+brew 'fluxcd/tap/flux'
+brew 'kustomize'
+brew 'kubeconform'
 
 # Apps
 cask '1password'
