@@ -6,8 +6,8 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 # If we're not running interactively then bail out
 [[ -z $PS1 ]] && return
 
-# Get the directory of the file being executed
-current_dir=$(dirname "$(readlink -f "$0")")
+# Get the directory of the file being executed (portable on macOS)
+current_dir=${0:A:h}
 
 # Define the files to source
 files=("$current_dir"/.{exports,aliases,zplug,functions,private})
@@ -32,6 +32,10 @@ setopt globassign
 # Try to autocorrect typos during directory completion
 zstyle ':completion:*' correct true
 
+# Prefer longest common prefix on Tab; avoid "first match" inserts
+unsetopt menu_complete
+setopt auto_menu
+
 # Include hidden files and directories in expansion
 setopt globdots
 
@@ -41,8 +45,12 @@ setopt extendedglob
 # Append to the history file instead of overwriting
 setopt appendhistory
 
-# Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
-[ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2 | tr ' ' '\n')" scp sftp ssh
+# Zsh history hygiene
+setopt inc_append_history
+setopt hist_ignore_space
+setopt hist_reduce_blanks
+HISTSIZE=32768
+SAVEHIST=32768
 
 # Typing "!!<space>" will replace "!!" with the previous command
 bindkey " " magic-space

@@ -10,7 +10,7 @@ zplug zdharma-continuum/fast-syntax-highlighting # feature rich syntax highlight
 zplug djui/alias-tips # alerts if you could've used an alias
 zplug lukechilds/zsh-nvm # installing, updating and loading nvm
 zplug z-shell/zsh-navigation-tools # lots of stuff, I like history features
-zplug marlonrichert/zsh-autocomplete # adds real-time type-ahead autocompletion
+# zplug marlonrichert/zsh-autocomplete # disabled: prefer classic zsh completion
 
 # completions
 [[ $commands[kubectl] ]] && source <(kubectl completion zsh) # completion for kubectl
