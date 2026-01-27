@@ -13,7 +13,15 @@ zplug z-shell/zsh-navigation-tools # lots of stuff, I like history features
 # zplug marlonrichert/zsh-autocomplete # disabled: prefer classic zsh completion
 
 # completions
-[[ $commands[kubectl] ]] && source <(kubectl completion zsh) # completion for kubectl
+# Lazy kubectl completion to avoid startup cost
+if (( $+commands[kubectl] )); then
+  _kubectl_lazy_complete() {
+    unset -f _kubectl_lazy_complete
+    source <(kubectl completion zsh)
+    _kubectl "$@"
+  }
+  compdef _kubectl_lazy_complete kubectl
+fi
 zplug greymd/docker-zsh-completion # completion for docker and docker-compose
 zplug zpm-zsh/ssh # ssh host completion
 zplug wintermi/zsh-brew # brew completions
@@ -26,10 +34,37 @@ else
   compinit -C
 fi
 
-# Install plugins if there are plugins that have not been installed
-if ! zplug check; then
-    zplug install
+# Only check/install plugins once a week to speed startup
+ZPLUG_CHECK_FILE="${ZDOTDIR:-$HOME}/.zplug_check"
+if [[ ! -f "$ZPLUG_CHECK_FILE" ]] || (( $(date +%s) - $(/usr/bin/stat -f %m "$ZPLUG_CHECK_FILE") > 604800 )); then
+  if ! zplug check; then
+      zplug install
+  fi
+  : >| "$ZPLUG_CHECK_FILE"
 fi
 
-# source plugins and add commands to the PATH
-zplug load
+# source plugins and add commands to the PATH (defer heavy ones)
+DEFERRED_ZPLUG_PLUGINS=(
+  zdharma-continuum/fast-syntax-highlighting
+  z-shell/zsh-navigation-tools
+)
+
+zplug load \
+  zplug/zplug \
+  davidparsson/zsh-pyenv-lazy \
+  romkatv/powerlevel10k \
+  zsh-users/zsh-autosuggestions \
+  djui/alias-tips \
+  lukechilds/zsh-nvm \
+  greymd/docker-zsh-completion \
+  zpm-zsh/ssh \
+  wintermi/zsh-brew
+
+autoload -Uz add-zsh-hook
+__zplug_deferred_loaded=0
+__zplug_load_deferred() {
+  (( __zplug_deferred_loaded )) && return
+  __zplug_deferred_loaded=1
+  zplug load "${DEFERRED_ZPLUG_PLUGINS[@]}"
+}
+add-zsh-hook precmd __zplug_load_deferred

@@ -36,6 +36,11 @@ zstyle ':completion:*' correct true
 unsetopt menu_complete
 setopt auto_menu
 
+# Faster, friendlier completion behavior
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path "${ZDOTDIR:-$HOME}/.zcompcache"
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+
 # Include hidden files and directories in expansion
 setopt globdots
 
