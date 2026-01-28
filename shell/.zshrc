@@ -40,6 +40,14 @@ setopt auto_menu
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "${ZDOTDIR:-$HOME}/.zcompcache"
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+# Ensure no stale completer hooks (e.g. zsh-autocomplete) are used
+zstyle ':completion:*' completer _complete _ignored
+
+# Force default command completion if a stale compdef is registered
+autoload -Uz _complete
+if typeset -p _comps >/dev/null 2>&1; then
+  _comps[-command-]=_complete
+fi
 
 # Include hidden files and directories in expansion
 setopt globdots
@@ -56,6 +64,8 @@ setopt hist_ignore_space
 setopt hist_reduce_blanks
 HISTSIZE=32768
 SAVEHIST=32768
+HISTFILE=${ZDOTDIR:-$HOME}/.zsh_history
+[[ -f "$HISTFILE" ]] && chmod 600 "$HISTFILE"
 
 # Typing "!!<space>" will replace "!!" with the previous command
 bindkey " " magic-space

@@ -13,6 +13,9 @@ zplug z-shell/zsh-navigation-tools # lots of stuff, I like history features
 # zplug marlonrichert/zsh-autocomplete # disabled: prefer classic zsh completion
 
 # completions
+# Ensure zsh-autocomplete completions are not picked up by compinit
+fpath=(${fpath:#*zsh-autocomplete*})
+
 # Lazy kubectl completion to avoid startup cost
 if (( $+commands[kubectl] )); then
   _kubectl_lazy_complete() {
@@ -28,7 +31,8 @@ zplug wintermi/zsh-brew # brew completions
 
 # only check zcompdump once a day
 autoload -Uz compinit
-if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' ${ZDOTDIR:-$HOME}/.zcompdump) ]; then
+ZCOMPDUMP_FILE="${ZDOTDIR:-$HOME}/.zcompdump"
+if [[ ! -f "$ZCOMPDUMP_FILE" ]] || [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' "$ZCOMPDUMP_FILE") ]; then
   compinit
 else
   compinit -C

@@ -20,6 +20,36 @@ epoch_to_date_time() {
   fi
 }
 
+# Remove duplicate PATH entries while preserving first occurrence order
+# Shows diff and prompts before applying.
+path_dedupe() {
+  local IFS=':'
+  local -a parts out
+  local p new_path reply
+  parts=($PATH)
+  out=()
+  for p in "${parts[@]}"; do
+    [[ -z "$p" ]] && continue
+    if [[ ":${out[*]}:" != *":$p:"* ]]; then
+      out+=("$p")
+    fi
+  done
+  new_path="${out[*]}"
+  printf "Current PATH:\n"
+  printf '%s\n' "$PATH" | tr ':' '\n'
+  printf "\nDeduped PATH:\n"
+  printf '%s\n' "$new_path" | tr ':' '\n'
+  printf "\nApply deduped PATH? [y/N] "
+  read -r reply
+  if [[ "$reply" =~ ^[Yy]$ ]]; then
+    PATH="$new_path"
+    export PATH
+    printf "PATH updated.\n"
+  else
+    printf "No changes made.\n"
+  fi
+}
+
 # check if file ends with a new line
 file_closes_with_newline() {
   test "$(command tail -c 1 -- "${1-}" | command wc -l)" -eq '0' &&

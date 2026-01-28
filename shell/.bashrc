@@ -44,6 +44,10 @@ shopt -s globstar
 # Append to the history file instead of overwriting
 shopt -s histappend
 
+# Keep history file private
+HISTFILE=${HISTFILE:-$HOME/.bash_history}
+[[ -f "$HISTFILE" ]] && chmod 600 "$HISTFILE"
+
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
 [ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2 | tr ' ' '\n')" scp sftp ssh
 
