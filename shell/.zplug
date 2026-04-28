@@ -8,7 +8,10 @@ source $HOMEBREW_PREFIX/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-h
 source ~/.zsh/plugins/alias-tips/alias-tips.plugin.zsh
 source ~/.zsh/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 
-# Cached completions (regenerate with: kubectl completion zsh > ~/.zsh/cache/kubectl.zsh)
+# Cached completions — generate on first use, source thereafter
+mkdir -p ~/.zsh/cache
+[[ $commands[kubectl] && ! -s ~/.zsh/cache/kubectl.zsh ]] && kubectl completion zsh >| ~/.zsh/cache/kubectl.zsh 2>/dev/null
+[[ $commands[docker]  && ! -s ~/.zsh/cache/docker.zsh  ]] && docker completion zsh  >| ~/.zsh/cache/docker.zsh  2>/dev/null
 for f in ~/.zsh/cache/*.zsh(N); do source "$f"; done
 (( $+commands[kubecolor] )) && compdef kubecolor=kubectl
 
