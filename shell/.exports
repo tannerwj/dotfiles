@@ -12,8 +12,11 @@ export HISTCONTROL="ignoredups:ignorespace"
 export HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S "
 export HISTIGNORE="bg:clear:exit:fg:history:cd -:pwd:exit:date:* --help"
 
-# PATH
-export PATH="$HOME/.local/bin:$PATH"
+# PATH (uv tool shims + personal scripts, prepended after brew shellenv)
+export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+
+# Node TLS: trust system CAs for npm/claude/etc.
+export NODE_EXTRA_CA_CERTS="$HOME/.claude/system-ca-certs.pem"
 
 # Tools
 export EXA_COLORS='uu=1;36:gu=1;36'
