@@ -11,3 +11,4 @@ Thumbs.db
 Brewfile.lock.json
 
 .codegpt
+.claude/
