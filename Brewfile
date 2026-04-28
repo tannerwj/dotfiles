@@ -2,7 +2,6 @@
 tap 'homebrew/bundle'
 tap 'homebrew/services'
 tap 'esolitos/ipa'
-tap 'hashicorp/tap'
 tap 'fluxcd/tap'
 
 # Brews
@@ -32,7 +31,6 @@ brew 'zplug'
 brew 'powerlevel10k'
 brew 'zsh-autosuggestions'
 brew 'zsh-fast-syntax-highlighting'
-brew 'hashicorp/tap/vault'
 brew 'openjdk@21'
 brew 'kubecolor'
 brew 'operator-sdk'
