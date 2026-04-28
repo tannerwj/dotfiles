@@ -1,4 +1,22 @@
-#!/bin/bash
+# Step CA SSH cert auto-renewal (macOS only — uses BSD date -j)
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  ssh() {
+    if ! [ -f ~/.ssh/taxhawk_step.cert ]; then
+      signssh
+    fi
+    ssh-keygen -Lf ~/.ssh/taxhawk_step.cert >/dev/null 2>&1
+    if [ $? -eq 0 ]; then
+      NOW=$(date +%s)
+      VALID=$(ssh-keygen -Lf ~/.ssh/taxhawk_step.cert | grep Valid | awk '{print $NF}' | (read strdate && date -j -f %Y-%m-%dT%H:%M:%S $strdate +%s ))
+      if [ $NOW -ge $VALID ]; then
+          signssh
+      fi
+    else
+      signssh
+    fi
+    command ssh "$@"
+  }
+fi
 
 # check shell startup time
 timeshell() {
@@ -119,4 +137,78 @@ swap_and_push() {
   docker push $new_image
   echo "Operation completed."
 }
- 
+
+# iTerm2 broadcast SSH grid (macOS only)
+if [[ "$OSTYPE" == "darwin"* ]]; then
+create_iterm_ssh_window() {
+    local servers=("$@")
+    local count=${#servers[@]}
+    
+    # Calculate grid dimensions (try to make it as square as possible)
+    local cols=$(echo "sqrt($count)" | bc)
+    [ $cols -eq 0 ] && cols=1
+    local rows=$(( (count + cols - 1) / cols ))
+    
+    # Build AppleScript with servers embedded
+    local server_list=""
+    for server in "${servers[@]}"; do
+        server_list="${server_list}\"${server}\", "
+    done
+    server_list=${server_list%, }  # Remove trailing comma
+    
+    osascript <<EOF
+tell application "iTerm2"
+    set serverList to {${server_list}}
+    set serverCount to ${count}
+    set gridCols to ${cols}
+    set gridRows to ${rows}
+    
+    create window with default profile
+    
+    set myWindow to current window
+    set myTab to current tab of myWindow
+    
+    -- Create all sessions first with splits
+    set sessionIndex to 2
+    
+    -- Create first row (vertical splits)
+    repeat with col from 2 to gridCols
+        if sessionIndex ≤ serverCount then
+            tell first session of myTab
+                split vertically with default profile
+            end tell
+            set sessionIndex to sessionIndex + 1
+        end if
+    end repeat
+    
+    -- Create additional rows (horizontal splits)
+    repeat with row from 2 to gridRows
+        repeat with col from 1 to gridCols
+            if sessionIndex ≤ serverCount then
+                tell session col of myTab
+                    split horizontally with default profile
+                end tell
+                set sessionIndex to sessionIndex + 1
+            end if
+        end repeat
+    end repeat
+    
+    delay 0.5
+    
+    -- Now write SSH commands to each session
+    repeat with i from 1 to serverCount
+        tell session i of myTab
+            write text "ssh " & item i of serverList
+        end tell
+    end repeat
+    
+    -- Enable broadcast input using keystroke
+    activate
+    delay 0.2
+    tell application "System Events"
+        keystroke "i" using {command down, shift down}
+    end tell
+end tell
+EOF
+}
+fi

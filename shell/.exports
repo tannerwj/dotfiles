@@ -1,45 +1,40 @@
-#!/bin/bash
-
-# Prefer US English and use UTF-8
+# Locale
 export LANG="en_US"
 export LC_ALL="en_US.UTF-8"
 
-# Make vim the default editor
+# Editor
 export EDITOR="vim"
 
-# Larger bash history
+# History
 export HISTSIZE=32768
 export HISTFILESIZE=$HISTSIZE
 export HISTCONTROL="ignoredups:ignorespace"
 export HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S "
 export HISTIGNORE="bg:clear:exit:fg:history:cd -:pwd:exit:date:* --help"
 
-# exa
+# Tools
 export EXA_COLORS='uu=1;36:gu=1;36'
+export DOTFILES="git@github.com:CraightonH/dotfiles.git"
+export PIP_INDEX_URL=https://nexus.taxhawk.com/repository/pypi/simple/
+export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
 
+# Infrastructure
+export VAULT_ADDR=https://hcp-virginia-1.private.vault.49af6eb6-c70e-4f73-8e37-7b3204522d55.aws.hashicorp.cloud:8200
+export ANSIBLE_CONFIG=~/git/ansible/ansible.cfg
+export ANSIBLE_INSTALL_DIR="${ANSIBLE_CONFIG%/*}"
+export GITLAB_URL=https://git.taxhawk.com
+
+# macOS
 if [[ "$OSTYPE" == "darwin"* ]]; then
-  # Have brew only prompt every week to update
   export HOMEBREW_AUTO_UPDATE_SECS=604800
-
-  # Prevent brew from installing
   export HOMEBREW_FORBIDDEN_CASKS="microsoft-auto-update"
-  # hashicorp hcp vault
   export VAULT_NAMESPACE="admin"
-  export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES # needed for using the ansible hashicorp module
+  export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
-  # Custom root CAs for python
-  export SSL_CERT_FILE=~/Desktop/all_custom_certs_for_python.pem
-  export REQUESTS_CA_BUNDLE=~/Desktop/all_custom_certs_for_python.pem
+  # Python CA bundle (regenerate with: update-python-certs)
+  export SSL_CERT_FILE=~/Desktop/all_certs_for_python.pem
+  export REQUESTS_CA_BUNDLE=~/Desktop/all_certs_for_python.pem
 
-  # zplug
-  export ZPLUG_HOME=$HOMEBREW_PREFIX/opt/zplug
 
-  # Have zsh-nvm load NVM lazy
-  export NVM_LAZY_LOAD=true
-  export NVM_COMPLETION=true
-
-  # Better MySQL prompt
   export MYSQL_PS1="\u@\h \d > "
 fi
-
-export DOTFILES="git@github.com:CraightonH/dotfiles.git"

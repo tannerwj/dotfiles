@@ -1,12 +1,8 @@
-#!/usr/bin/env bash
-
-# If we're not running interactively then bail out
+# If we’re not running interactively then bail out
 [[ -z $PS1 ]] && return
 
-# Load the shell dotfiles, and then some:
-# * ~/.path can be used to extend `$PATH`.
-# * ~/.extra can be used for other settings you don’t want to commit.
-for file in .{path,exports,aliases,extra,private}; do
+# Load shell modules
+for file in .{exports,aliases,private}; do
 	[ -r "$HOME/$file" ] && source "$HOME/$file"
 done
 unset file
@@ -93,8 +89,3 @@ fi
 # Typing "!!<space>" will replace "!!" with the previous command
 bind Space:magic-space
 
-# Preferred text editors ordered by priority (space-separated)
-EDITOR_PRIORITY='vim vi nano pico'
-
-# Locations to prefix to PATH (colon-separated)
-EXTRA_PATHS=''

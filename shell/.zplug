@@ -1,25 +1,18 @@
-#!/bin/zsh
+# Plugins (no manager — direct source)
+# Homebrew-installed
+source $HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme
+source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOMEBREW_PREFIX/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 
-source $ZPLUG_HOME/init.zsh
+# Git-cloned (~/.zsh/plugins/)
+source ~/.zsh/plugins/alias-tips/alias-tips.plugin.zsh
+source ~/.zsh/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 
-zplug zplug/zplug, hook-build:'zplug --self-manage' # so zplug can update itself
-zplug romkatv/powerlevel10k, as:theme, depth:1 # zsh theme
-zplug zsh-users/zsh-autosuggestions # suggests commands as you type based on history and completions
-zplug zdharma-continuum/fast-syntax-highlighting # feature rich syntax highlighting for Zsh
-zplug djui/alias-tips # alerts if you could've used an alias
-zplug z-shell/zsh-navigation-tools # lots of stuff, I like history features
-zplug marlonrichert/zsh-autocomplete # adds real-time type-ahead autocompletion
+# Cached completions (regenerate with: kubectl completion zsh > ~/.zsh/cache/kubectl.zsh)
+for f in ~/.zsh/cache/*.zsh(N); do source "$f"; done
+(( $+commands[kubecolor] )) && compdef kubecolor=kubectl
 
-# completions
-[[ $commands[kubectl] ]] && source <(kubectl completion zsh) # completion for kubectl
-if [[ -x $(which kubecolor) ]]; then
-    compdef kubecolor=kubectl
-fi
-zplug greymd/docker-zsh-completion # completion for docker and docker-compose
-zplug zpm-zsh/ssh # ssh host completion
-zplug wintermi/zsh-brew # brew completions
-
-# only check zcompdump once a day
+# Only rebuild zcompdump once a day
 autoload -Uz compinit
 if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' ${ZDOTDIR:-$HOME}/.zcompdump) ]; then
   compinit
@@ -27,14 +20,22 @@ else
   compinit -C
 fi
 
-# Install plugins if there are plugins that have not been installed
-if ! zplug check; then
-    zplug install
+# Lazy NVM
+export NVM_DIR="$HOME/.nvm"
+nvm() {
+  unset -f nvm node npm npx
+  [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
+  nvm "$@"
+}
+node()  { unset -f nvm node npm npx; [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"; node "$@"; }
+npm()   { unset -f nvm node npm npx; [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"; npm "$@"; }
+npx()   { unset -f nvm node npm npx; [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"; npx "$@"; }
+
+# Lazy pyenv
+if (( $+commands[pyenv] )); then
+  pyenv() {
+    unset -f pyenv
+    eval "$(command pyenv init -)"
+    pyenv "$@"
+  }
 fi
-
-# envs
-zplug lukechilds/zsh-nvm # installing, updating and loading nvm
-zplug davidparsson/zsh-pyenv-lazy # save ~.25 seconds and lazy load pyenv
-
-# source plugins and add commands to the PATH
-zplug load

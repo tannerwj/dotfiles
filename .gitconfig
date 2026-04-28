@@ -1,6 +1,6 @@
 [user]
   name = Craighton Hancock
-  email = ''
+  email = chancock@taxhawk.com
 [core]
   editor = vi
   excludesfile = ~/.gitignore
