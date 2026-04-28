@@ -22,6 +22,15 @@ rsync --exclude ".private" \
 
 source ~/.bashrc;
 
+# Python CA bundle: system keychain + homebrew CAs
+# Kept out of ~/Desktop because macOS TCC blocks subprocess reads there
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  mkdir -p ~/.config/ssl
+  security find-certificate -a -p > ~/.config/ssl/python-ca-bundle.pem
+  [ -f /opt/homebrew/etc/ca-certificates/cert.pem ] && \
+    cat /opt/homebrew/etc/ca-certificates/cert.pem >> ~/.config/ssl/python-ca-bundle.pem
+fi
+
 # Pin ansible-core to 2.17 (community collections 10.x) — newer cores break our playbooks
 # Inject Python deps required by playbook modules into ansible's isolated venv
 if command -v uv >/dev/null 2>&1; then
