@@ -12,6 +12,9 @@ export HISTCONTROL="ignoredups:ignorespace"
 export HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S "
 export HISTIGNORE="bg:clear:exit:fg:history:cd -:pwd:exit:date:* --help"
 
+# PATH
+export PATH="$HOME/.local/bin:$PATH"
+
 # Tools
 export EXA_COLORS='uu=1;36:gu=1;36'
 export DOTFILES="git@github.com:CraightonH/dotfiles.git"

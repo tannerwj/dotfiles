@@ -6,7 +6,6 @@ tap 'hashicorp/tap'
 tap 'fluxcd/tap'
 
 # Brews
-brew 'ansible'
 brew 'awscli'
 brew 'calicoctl'
 brew 'cloudflared'
