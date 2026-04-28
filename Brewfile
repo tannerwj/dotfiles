@@ -66,6 +66,7 @@ cask 'slack'
 cask 'spotify'
 cask 'visual-studio-code'
 # cask 'wireshark'
+cask 'wispr-flow'
 cask 'zoom'
 
 # Mac App Store
