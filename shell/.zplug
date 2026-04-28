@@ -12,13 +12,15 @@ source ~/.zsh/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 for f in ~/.zsh/cache/*.zsh(N); do source "$f"; done
 (( $+commands[kubecolor] )) && compdef kubecolor=kubectl
 
-# Only rebuild zcompdump once a day
+# Only rebuild zcompdump once a day (build fresh if missing)
 autoload -Uz compinit
-if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' ${ZDOTDIR:-$HOME}/.zcompdump) ]; then
+_zcompdump=${ZDOTDIR:-$HOME}/.zcompdump
+if [[ ! -f $_zcompdump ]] || [[ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' $_zcompdump) ]]; then
   compinit
 else
   compinit -C
 fi
+unset _zcompdump
 
 # Lazy NVM
 export NVM_DIR="$HOME/.nvm"
