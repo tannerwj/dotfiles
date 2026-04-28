@@ -23,6 +23,16 @@ rsync --exclude ".private" \
 source ~/.bashrc;
 
 # Pin ansible-core to 2.17 (community collections 10.x) — newer cores break our playbooks
+# Inject Python deps required by playbook modules into ansible's isolated venv
 if command -v uv >/dev/null 2>&1; then
-  uv tool install --python 3.12 "ansible-core==2.17.*" --with "ansible==10.*"
+  uv tool install --python 3.12 "ansible-core==2.17.*" \
+    --with "ansible==10.*" \
+    --with requests \
+    --with hvac \
+    --with kubernetes \
+    --with jmespath \
+    --with netaddr \
+    --with passlib \
+    --with pywinrm \
+    --with zabbix-api
 fi
