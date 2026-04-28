@@ -1,9 +1,11 @@
 # If we're not running interactively then bail out
 [[ -z $PS1 ]] && return
 
-# Source shell modules (.exports already loaded via .zshenv)
+# Source shell modules
+# (.exports also loaded via .zshenv for non-interactive shells, but we
+# re-source here so `source ~/.zshrc` picks up edits without restart)
 _dotfiles="${0:A:h}"
-for file in "$_dotfiles"/.{aliases,zplug,functions,private}; do
+for file in "$_dotfiles"/.{exports,aliases,zplug,functions,private}; do
   [[ -r $file ]] && source "$file"
 done
 unset _dotfiles
