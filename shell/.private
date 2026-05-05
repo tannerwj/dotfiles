@@ -1,0 +1,57 @@
+[[ ! -o interactive ]] && return
+
+# 1Password secrets via macOS Keychain + service account (parallelized)
+_OP_SA_TOKEN="$(security find-generic-password -a "$USER" -s 1password-service-account -w 2>/dev/null)"
+if [ -n "$_OP_SA_TOKEN" ]; then
+  _op_tmp=$(mktemp -d)
+  _op_env="OP_SERVICE_ACCOUNT_TOKEN=$_OP_SA_TOKEN"
+
+  # Fire all reads in parallel (15s timeout per call to prevent hangs)
+  _opr() { timeout 15 env "$_op_env" op read "$1" 2>/dev/null; }
+  (
+    _opr 'op://Taxhawk/Gitlab Maestro Key/password'       > "$_op_tmp/gitlab_token" &
+    _opr 'op://Taxhawk/Grafana MCP API Key/password'      > "$_op_tmp/grafana_key" &
+    _opr 'op://Taxhawk/Opsgenie API Key/password'         > "$_op_tmp/opsgenie_key" &
+    _opr 'op://Taxhawk/Slack User Token/password'         > "$_op_tmp/slack_token" &
+    _opr 'op://Taxhawk/Rootly Personal Token/password'    > "$_op_tmp/rootly_token" &
+    _opr 'op://Taxhawk/Gitlab Terraform PAT/password'     > "$_op_tmp/tf_http_password" &
+    _opr 'op://Taxhawk/LV Elastic MCP Key/password'      > "$_op_tmp/elastic_lv_key" &
+    _opr 'op://Taxhawk/SLC Elastic MCP Key/password'     > "$_op_tmp/elastic_slc_key" &
+    _opr 'op://Taxhawk/LV Elastic API Account/username'  > "$_op_tmp/lv_user" &
+    _opr 'op://Taxhawk/LV Elastic API Account/password'  > "$_op_tmp/lv_pass" &
+    _opr 'op://Taxhawk/SLC Elastic API Account/username' > "$_op_tmp/slc_user" &
+    _opr 'op://Taxhawk/SLC Elastic API Account/password' > "$_op_tmp/slc_pass" &
+    _opr 'op://Taxhawk/HawkMind API Key/password' > "$_op_tmp/hawkmind_api_key" &
+    wait
+  )
+  unset -f _opr
+
+  _op_export() {
+    local val="$(<"$_op_tmp/$2")"
+    [ -n "$val" ] && export "$1=$3$val"
+  }
+  _op_export GITLAB_TOKEN        gitlab_token
+  _op_export GRAFANA_MCP_API_KEY grafana_key
+  _op_export OPSGENIE_API_KEY    opsgenie_key
+  _op_export SLACK_USER_TOKEN    slack_token
+  _op_export ROOTLY_API_TOKEN    rootly_token
+  _op_export TF_HTTP_PASSWORD    tf_http_password
+  [ -n "$TF_HTTP_PASSWORD" ] && export TF_HTTP_USERNAME="$USER"
+  _op_export HAWKMIND_KEY        hawkmind_api_key
+  _op_export ELASTIC_MCP_LV_KEY  elastic_lv_key  "ApiKey "
+  _op_export ELASTIC_MCP_SLC_KEY elastic_slc_key "ApiKey "
+  _op_export ELASTIC_MCP_KEY     elastic_lv_key
+  
+  _lv_u="$(<"$_op_tmp/lv_user")" _lv_p="$(<"$_op_tmp/lv_pass")"
+  [ -n "$_lv_u" ] && [ -n "$_lv_p" ] && \
+    export ELASTIC_LV_AUTH="Basic $(printf '%s:%s' "$_lv_u" "$_lv_p" | base64)"
+
+  _slc_u="$(<"$_op_tmp/slc_user")" _slc_p="$(<"$_op_tmp/slc_pass")"
+  [ -n "$_slc_u" ] && [ -n "$_slc_p" ] && \
+    export ELASTIC_SLC_AUTH="Basic $(printf '%s:%s' "$_slc_u" "$_slc_p" | base64)"
+
+  unset _lv_u _lv_p _slc_u _slc_p
+  unset -f _op_export
+  rm -rf "$_op_tmp"
+fi
+unset _OP_SA_TOKEN

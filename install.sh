@@ -15,8 +15,7 @@ rsync --exclude ".git/" \
   --exclude ".gitignore" \
   -avh --no-perms .gitconfig ~;
 
-rsync --exclude ".private" \
-  --exclude ".zplug" \
+rsync --exclude ".zplug" \
   --exclude ".zshrc" \
   -a shell/ ~/;
 
