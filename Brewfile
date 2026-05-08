@@ -1,6 +1,4 @@
 # Taps
-tap 'homebrew/bundle'
-tap 'homebrew/services'
 tap 'esolitos/ipa'
 
 # Brews
@@ -53,7 +51,10 @@ cask 'docker-desktop'
 cask 'firefox'
 cask 'ghostty'
 cask 'github'
+cask 'google-chrome'
 cask 'iterm2'
+cask 'microsoft-outlook'
+cask 'microsoft-teams'
 cask 'postman'
 cask 'rectangle'
 cask 'session-manager-plugin'
